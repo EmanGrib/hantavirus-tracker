@@ -532,7 +532,7 @@ function Modal({ title, onClose, children }) {
 // ─── DONATE BUTTON ──────────────────────────────────────────────
 function DonateButton({ compact }) {
   return (
-    <a href="https://buymeacoffee.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer"
+    <a href="https://buymeacoffee.com/HantaVirusTracking" target="_blank" rel="noopener noreferrer"
       style={{
         display: "inline-flex", alignItems: "center", gap: 6,
         padding: compact ? "6px 14px" : "10px 20px",
