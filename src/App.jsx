@@ -419,6 +419,25 @@ function CaseDetail({ c, onClose }) {
             </div>
           </section>
 
+          {/* SOURCE */}
+          {c.sourceUrl && (
+            <section>
+              <div style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, fontFamily: "'IBM Plex Sans', sans-serif" }}>Primary Source</div>
+              <div style={{ background: "#1e293b", borderRadius: 8, padding: "10px 12px" }}>
+                <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6 }}>
+                  {c.source && <span style={{ display: "inline-block", background: "#0f172a", color: "#38bdf8", padding: "1px 7px", borderRadius: 99, fontSize: 10, fontWeight: 600, marginBottom: 6 }}>{c.source}</span>}
+                </div>
+                <a href={c.sourceUrl} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: 12, color: "#38bdf8", lineHeight: 1.5, textDecoration: "none", display: "block" }}
+                  onMouseEnter={e => e.currentTarget.style.textDecoration = "underline"}
+                  onMouseLeave={e => e.currentTarget.style.textDecoration = "none"}>
+                  {c.sourceTitle || c.sourceUrl}
+                  <span style={{ marginLeft: 4, fontSize: 10, color: "#475569" }}>↗</span>
+                </a>
+              </div>
+            </section>
+          )}
+
         </div>
       </>)}
     </div>
@@ -737,7 +756,7 @@ export default function HantavirusTracker() {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
                 <tr style={{ background: "#0f172a" }}>
-                  {["Date","Location","Type","Strain","Syndrome","Outcome"].map(h => (
+                  {["Date","Location","Type","Strain","Syndrome","Outcome","Source"].map(h => (
                     <th key={h} style={{ padding: "10px 16px", textAlign: "left", color: "#64748b", fontWeight: 500, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.5 }}>{h}</th>
                   ))}
                 </tr>
@@ -758,6 +777,18 @@ export default function HantavirusTracker() {
                       <abbr title={SYNDROME_LABELS[c.syndrome]} style={{ textDecoration: "none", borderBottom: "1px dotted #475569", cursor: "help" }}>{c.syndrome}</abbr>
                     </td>
                     <td style={{ padding: "10px 16px", color: c.outcome === "deceased" ? "#ef4444" : c.outcome === "hospitalized" ? "#f59e0b" : "#10b981" }}>{c.outcome}</td>
+                    <td style={{ padding: "10px 16px" }}>
+                      {c.sourceUrl
+                        ? <a href={c.sourceUrl} target="_blank" rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            style={{ fontSize: 11, color: "#38bdf8", textDecoration: "none", whiteSpace: "nowrap" }}
+                            onMouseEnter={e => e.currentTarget.style.textDecoration = "underline"}
+                            onMouseLeave={e => e.currentTarget.style.textDecoration = "none"}>
+                            {c.source || "Source"} ↗
+                          </a>
+                        : <span style={{ color: "#334155", fontSize: 11 }}>—</span>
+                      }
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -820,9 +851,12 @@ export default function HantavirusTracker() {
           </ul>
           <h3 style={{ color: "#f1f5f9", fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Data sources</h3>
           <p style={{ marginBottom: 16 }}>
-            Case data is aggregated from publicly available reports including the WHO Disease Outbreak News,
-            CDC Hantavirus surveillance, ProMED-mail, and national health ministry bulletins.
-            The current build uses a curated seed dataset; live data integration is in active development.
+            Case data is aggregated from publicly available reports including the{" "}
+            <a href="https://www.who.int/emergencies/disease-outbreak-news" target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8" }}>WHO Disease Outbreak News</a>,{" "}
+            <a href="https://www.cdc.gov/hantavirus/" target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8" }}>CDC Hantavirus surveillance</a>,{" "}
+            <a href="https://www.ecdc.europa.eu" target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8" }}>ECDC rapid risk assessments</a>,{" "}
+            ProMED-mail, and national health ministry bulletins. Every case entry links directly to its
+            primary source document. Case data is updated hourly via an automated pipeline.
           </p>
           <h3 style={{ color: "#f1f5f9", fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Important disclaimer</h3>
           <p style={{ color: "#94a3b8" }}>

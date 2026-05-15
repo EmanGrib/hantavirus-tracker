@@ -3,9 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Real-time global Hantavirus case tracker with interactive 3D globe, epidemiological statistics, and outbreak mapping." />
+
+    <!-- ── PRIMARY META ──────────────────────────────────────────── -->
     <title>Hantavirus Tracker — Real-Time Global Surveillance</title>
+    <meta name="description" content="Live global hantavirus case tracker. 51 verified cases across 18 countries — including the MV Hondius cruise ship outbreak. Interactive 3D globe, strain breakdowns, case fatality rates, and hourly updates from WHO, CDC, and ECDC." />
+    <meta name="keywords" content="hantavirus, hantavirus tracker, hantavirus outbreak, MV Hondius, hantavirus 2026, HPS, HFRS, Andes virus, Sin Nombre virus, Puumala, hantavirus map, disease tracker, outbreak map, WHO hantavirus, CDC hantavirus" />
+    <meta name="author" content="Hantavirus Tracker" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://hantavirus-tracker.emangrib.workers.dev/" />
+
+    <!-- ── OPEN GRAPH (Facebook, LinkedIn, WhatsApp, iMessage) ──── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hantavirus Tracker" />
+    <meta property="og:title" content="Hantavirus Tracker — Real-Time Global Surveillance" />
+    <meta property="og:description" content="Live global hantavirus case tracker. 51 verified cases across 18 countries — including the MV Hondius cruise ship outbreak (3 deaths). Interactive 3D globe with hourly updates from WHO, CDC &amp; ECDC." />
+    <meta property="og:url" content="https://hantavirus-tracker.emangrib.workers.dev/" />
+    <meta property="og:image" content="https://hantavirus-tracker.emangrib.workers.dev/og-image.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Hantavirus Tracker — interactive global surveillance map showing confirmed cases worldwide" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ── TWITTER / X CARD ─────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@HantaTracker" />
+    <meta name="twitter:title" content="Hantavirus Tracker — Real-Time Global Surveillance" />
+    <meta name="twitter:description" content="Live hantavirus case map. 51 verified cases, 18 countries, 3 deaths on MV Hondius cruise ship. Hourly updates from WHO &amp; CDC. Interactive 3D globe." />
+    <meta name="twitter:image" content="https://hantavirus-tracker.emangrib.workers.dev/og-image.svg" />
+    <meta name="twitter:image:alt" content="Hantavirus Tracker global surveillance map" />
+
+    <!-- ── STRUCTURED DATA (JSON-LD) ────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Hantavirus Tracker",
+      "url": "https://hantavirus-tracker.emangrib.workers.dev/",
+      "description": "Real-time global hantavirus case surveillance tracker. Verified cases from WHO, CDC, ECDC, and national health ministries. Updated hourly.",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hantavirus-tracker.emangrib.workers.dev/",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hantavirus Tracker",
+        "url": "https://hantavirus-tracker.emangrib.workers.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hantavirus-tracker.emangrib.workers.dev/favicon.svg"
+        }
+      },
+      "mainEntity": {
+        "@type": "Dataset",
+        "name": "Global Hantavirus Case Data",
+        "description": "Verified hantavirus cases sourced from WHO Disease Outbreak Notices, CDC surveillance reports, ECDC rapid risk assessments, and national health ministry bulletins.",
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "creator": {
+          "@type": "Organization",
+          "name": "Hantavirus Tracker"
+        },
+        "includedInDataCatalog": {
+          "@type": "DataCatalog",
+          "name": "Hantavirus Tracker Case Database"
+        },
+        "distribution": {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://hantavirus-tracker.emangrib.workers.dev/cases.json"
+        },
+        "temporalCoverage": "2025-01-01/",
+        "spatialCoverage": {
+          "@type": "Place",
+          "name": "Global"
+        }
+      }
+    }
+    </script>
+
+    <!-- ── ICONS & FONTS ─────────────────────────────────────────── -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="theme-color" content="#0f172a" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
 
     <!-- Google AdSense — replace ca-pub-XXXX with your real publisher ID -->

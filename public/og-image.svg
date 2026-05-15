@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="globeGrad" cx="40%" cy="40%" r="60%" fx="30%" fy="30%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#1a2744"/>
+      <stop offset="100%" stop-color="#0c1929"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <clipPath id="globeClip">
+      <circle cx="860" cy="315" r="240"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <g stroke="#1e293b" stroke-width="1" opacity="0.4">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Globe -->
+  <circle cx="860" cy="315" r="260" fill="url(#glow)"/>
+  <circle cx="860" cy="315" r="240" fill="url(#globeGrad)" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.2"/>
+
+  <!-- Globe graticule lines -->
+  <g clip-path="url(#globeClip)" stroke="#334155" stroke-width="0.5" fill="none" opacity="0.5">
+    <ellipse cx="860" cy="315" rx="240" ry="80"/>
+    <ellipse cx="860" cy="315" rx="240" ry="160"/>
+    <line x1="620" y1="315" x2="1100" y2="315"/>
+    <line x1="740" y1="75" x2="740" y2="555"/>
+    <line x1="860" y1="75" x2="860" y2="555"/>
+    <line x1="980" y1="75" x2="980" y2="555"/>
+  </g>
+
+  <!-- Atmospheric glow ring -->
+  <circle cx="860" cy="315" r="252" fill="none" stroke="#38bdf8" stroke-width="8" stroke-opacity="0.06"/>
+
+  <!-- Case dots on globe -->
+  <!-- US Southwest (confirmed) -->
+  <circle cx="760" cy="268" r="6" fill="#ef4444" opacity="0.9"/>
+  <circle cx="760" cy="268" r="14" fill="#ef4444" opacity="0.15" filter="url(#softBlur)"/>
+  <circle cx="748" cy="275" r="5" fill="#ef4444" opacity="0.85"/>
+  <circle cx="772" cy="260" r="4" fill="#ef4444" opacity="0.8"/>
+
+  <!-- South America (Andes) -->
+  <circle cx="810" cy="400" r="7" fill="#a855f7" opacity="0.95"/>
+  <circle cx="810" cy="400" r="16" fill="#a855f7" opacity="0.2" filter="url(#softBlur)"/>
+  <circle cx="798" cy="415" r="5" fill="#ef4444" opacity="0.85"/>
+  <circle cx="822" cy="390" r="4" fill="#ef4444" opacity="0.8"/>
+
+  <!-- Europe (Puumala) -->
+  <circle cx="918" cy="222" r="5" fill="#ef4444" opacity="0.85"/>
+  <circle cx="930" cy="235" r="4" fill="#ef4444" opacity="0.8"/>
+  <circle cx="906" cy="240" r="4" fill="#f59e0b" opacity="0.85"/>
+
+  <!-- Asia (Hantaan) -->
+  <circle cx="1020" cy="255" r="5" fill="#ef4444" opacity="0.85"/>
+  <circle cx="1010" cy="268" r="4" fill="#ef4444" opacity="0.8"/>
+
+  <!-- MV Hondius (fatal - Antarctic) -->
+  <circle cx="830" cy="470" r="7" fill="#a855f7" opacity="0.95"/>
+  <circle cx="830" cy="470" r="18" fill="#a855f7" opacity="0.25" filter="url(#softBlur)"/>
+
+  <!-- Left content area -->
+  <!-- Logo box -->
+  <rect x="60" y="52" width="56" height="56" rx="12" fill="url(#logoGrad)"/>
+  <text x="88" y="92" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="28" fill="#ffffff">H</text>
+
+  <!-- Title -->
+  <text x="60" y="178" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="46" fill="#f1f5f9" letter-spacing="-1">Hantavirus Tracker</text>
+  <text x="60" y="218" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="22" fill="#64748b" letter-spacing="0.5">Real-Time Global Surveillance</text>
+
+  <!-- Divider -->
+  <rect x="60" y="244" width="480" height="1" fill="#1e293b"/>
+
+  <!-- LIVE badge -->
+  <rect x="60" y="264" width="8" height="8" rx="4" fill="#10b981"/>
+  <text x="76" y="273" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="13" fill="#10b981" letter-spacing="1">LIVE — UPDATED HOURLY</text>
+
+  <!-- Stat cards -->
+  <!-- Card 1 -->
+  <rect x="60" y="302" width="140" height="88" rx="10" fill="#1e293b"/>
+  <text x="80" y="328" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="11" fill="#64748b" letter-spacing="1">TOTAL CASES</text>
+  <text x="80" y="362" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="34" fill="#38bdf8">51</text>
+  <text x="80" y="381" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569">18 countries</text>
+
+  <!-- Card 2 -->
+  <rect x="214" y="302" width="140" height="88" rx="10" fill="#1e293b"/>
+  <text x="234" y="328" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="11" fill="#64748b" letter-spacing="1">DEATHS</text>
+  <text x="234" y="362" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="34" fill="#ef4444">16</text>
+  <text x="234" y="381" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569">CFR: 31.4%</text>
+
+  <!-- Card 3 -->
+  <rect x="368" y="302" width="140" height="88" rx="10" fill="#1e293b"/>
+  <text x="388" y="328" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="11" fill="#64748b" letter-spacing="1">STRAINS</text>
+  <text x="388" y="362" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="34" fill="#a855f7">7</text>
+  <text x="388" y="381" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569">HPS · HFRS · NE</text>
+
+  <!-- MV Hondius alert box -->
+  <rect x="60" y="410" width="448" height="76" rx="10" fill="#1a0a0a" stroke="#ef4444" stroke-width="1" stroke-opacity="0.4"/>
+  <rect x="60" y="410" width="4" height="76" rx="2" fill="#ef4444"/>
+  <text x="78" y="432" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="13" fill="#ef4444">⚠ ACTIVE OUTBREAK</text>
+  <text x="78" y="454" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#cbd5e1">MV Hondius cruise ship — Andes virus</text>
+  <text x="78" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8">11 cases · 3 deaths · person-to-person spread confirmed</text>
+
+  <!-- Colour legend -->
+  <circle cx="66" cy="522" r="5" fill="#ef4444"/>
+  <text x="78" y="527" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Confirmed</text>
+  <circle cx="156" cy="522" r="5" fill="#f59e0b"/>
+  <text x="168" y="527" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Suspected</text>
+  <circle cx="250" cy="522" r="5" fill="#a855f7"/>
+  <text x="262" y="527" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Fatal</text>
+
+  <!-- URL -->
+  <text x="60" y="576" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#334155">hantavirus-tracker.emangrib.workers.dev</text>
+
+  <!-- Data sources strip -->
+  <rect x="0" y="600" width="1200" height="30" fill="#0a1220"/>
+  <text x="600" y="620" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#334155" letter-spacing="0.5">DATA: WHO · CDC · ECDC · Argentina MoH · Chile MoH · Germany RKI · ProMED-mail</text>
+</svg>

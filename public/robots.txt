@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hantavirus-tracker.emangrib.workers.dev/sitemap.xml
