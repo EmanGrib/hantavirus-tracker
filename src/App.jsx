@@ -2,64 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import * as d3 from "d3";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-// ─── SEED DATA ───────────────────────────────────────────────────
-const CASES = [
-  { id:"c001",lat:36.5,lng:-108.5,country:"United States",region:"New Mexico",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-04-12",outcome:"recovered",sex:"M",age:34 },
-  { id:"c002",lat:35.2,lng:-111.6,country:"United States",region:"Arizona",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-03-28",outcome:"deceased",sex:"F",age:52 },
-  { id:"c003",lat:37.3,lng:-108.9,country:"United States",region:"Colorado",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-04-01",outcome:"hospitalized",sex:"M",age:41 },
-  { id:"c004",lat:37.8,lng:-109.3,country:"United States",region:"Utah",caseType:"suspected",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-04-18",outcome:"unknown",sex:"F",age:29 },
-  { id:"c005",lat:47.6,lng:-122.3,country:"United States",region:"Washington",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-02-14",outcome:"recovered",sex:"M",age:45 },
-  { id:"c006",lat:34.0,lng:-118.2,country:"United States",region:"California",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-01-22",outcome:"recovered",sex:"F",age:38 },
-  { id:"c007",lat:36.8,lng:-107.9,country:"United States",region:"New Mexico",caseType:"fatal",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2025-12-10",outcome:"deceased",sex:"M",age:61 },
-  { id:"c008",lat:35.7,lng:-105.9,country:"United States",region:"New Mexico",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2025-11-05",outcome:"recovered",sex:"F",age:27 },
-  { id:"c009",lat:38.9,lng:-104.8,country:"United States",region:"Colorado",caseType:"suspected",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-04-25",outcome:"hospitalized",sex:"M",age:33 },
-  { id:"c010",lat:46.9,lng:-110.4,country:"United States",region:"Montana",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-03-15",outcome:"recovered",sex:"M",age:50 },
-  { id:"c011",lat:-41.8,lng:-71.7,country:"Argentina",region:"Patagonia",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2026-03-02",outcome:"hospitalized",sex:"M",age:36 },
-  { id:"c012",lat:-43.3,lng:-71.2,country:"Argentina",region:"Chubut",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2026-02-18",outcome:"deceased",sex:"F",age:44 },
-  { id:"c013",lat:-34.6,lng:-58.4,country:"Argentina",region:"Buenos Aires",caseType:"suspected",strain:"Andes",syndrome:"HPS",reportDate:"2026-04-08",outcome:"unknown",sex:"M",age:55 },
-  { id:"c014",lat:-38.9,lng:-68.1,country:"Argentina",region:"Neuquén",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2025-12-20",outcome:"recovered",sex:"F",age:31 },
-  { id:"c015",lat:-42.5,lng:-72.3,country:"Argentina",region:"Río Negro",caseType:"fatal",strain:"Andes",syndrome:"HPS",reportDate:"2026-01-15",outcome:"deceased",sex:"M",age:67 },
-  { id:"c016",lat:-45.6,lng:-72.1,country:"Chile",region:"Aysén",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2026-03-22",outcome:"hospitalized",sex:"M",age:40 },
-  { id:"c017",lat:-37.5,lng:-72.3,country:"Chile",region:"Biobío",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2026-02-05",outcome:"recovered",sex:"F",age:28 },
-  { id:"c018",lat:-33.4,lng:-70.6,country:"Chile",region:"Santiago Metro",caseType:"suspected",strain:"Andes",syndrome:"HPS",reportDate:"2026-04-15",outcome:"unknown",sex:"M",age:47 },
-  { id:"c019",lat:-27.6,lng:-48.5,country:"Brazil",region:"Santa Catarina",caseType:"confirmed",strain:"Araraquara",syndrome:"HPS",reportDate:"2026-01-30",outcome:"recovered",sex:"M",age:35 },
-  { id:"c020",lat:-25.4,lng:-49.3,country:"Brazil",region:"Paraná",caseType:"confirmed",strain:"Araraquara",syndrome:"HPS",reportDate:"2026-03-10",outcome:"hospitalized",sex:"F",age:42 },
-  { id:"c021",lat:7.9,lng:-80.1,country:"Panama",region:"Los Santos",caseType:"confirmed",strain:"Choclo",syndrome:"HPS",reportDate:"2026-02-28",outcome:"recovered",sex:"M",age:26 },
-  { id:"c022",lat:63.1,lng:21.6,country:"Finland",region:"Ostrobothnia",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-04-05",outcome:"recovered",sex:"M",age:58 },
-  { id:"c023",lat:61.5,lng:23.8,country:"Finland",region:"Pirkanmaa",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-03-18",outcome:"recovered",sex:"F",age:49 },
-  { id:"c024",lat:60.2,lng:24.9,country:"Finland",region:"Uusimaa",caseType:"suspected",strain:"Puumala",syndrome:"NE",reportDate:"2026-04-20",outcome:"unknown",sex:"M",age:37 },
-  { id:"c025",lat:65.8,lng:24.1,country:"Finland",region:"Lapland",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2025-11-22",outcome:"recovered",sex:"M",age:63 },
-  { id:"c026",lat:66.5,lng:20.2,country:"Sweden",region:"Norrbotten",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-01-08",outcome:"recovered",sex:"F",age:54 },
-  { id:"c027",lat:63.8,lng:20.3,country:"Sweden",region:"Västerbotten",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-02-12",outcome:"recovered",sex:"M",age:46 },
-  { id:"c028",lat:48.8,lng:9.2,country:"Germany",region:"Baden-Württemberg",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-03-05",outcome:"recovered",sex:"M",age:41 },
-  { id:"c029",lat:48.1,lng:11.6,country:"Germany",region:"Bavaria",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-04-02",outcome:"recovered",sex:"F",age:33 },
-  { id:"c030",lat:50.1,lng:5.0,country:"Belgium",region:"Ardennes",caseType:"suspected",strain:"Puumala",syndrome:"NE",reportDate:"2026-04-22",outcome:"unknown",sex:"M",age:39 },
-  { id:"c031",lat:49.5,lng:4.9,country:"France",region:"Ardennes",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-01-25",outcome:"recovered",sex:"F",age:51 },
-  { id:"c032",lat:34.3,lng:108.9,country:"China",region:"Shaanxi",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-04-10",outcome:"hospitalized",sex:"M",age:48 },
-  { id:"c033",lat:45.8,lng:126.5,country:"China",region:"Heilongjiang",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-03-20",outcome:"recovered",sex:"F",age:56 },
-  { id:"c034",lat:41.8,lng:123.4,country:"China",region:"Liaoning",caseType:"confirmed",strain:"Seoul",syndrome:"HFRS",reportDate:"2026-02-08",outcome:"recovered",sex:"M",age:62 },
-  { id:"c035",lat:36.1,lng:120.4,country:"China",region:"Shandong",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-01-15",outcome:"deceased",sex:"M",age:70 },
-  { id:"c036",lat:30.6,lng:114.3,country:"China",region:"Hubei",caseType:"suspected",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-04-28",outcome:"unknown",sex:"F",age:43 },
-  { id:"c037",lat:34.0,lng:113.7,country:"China",region:"Henan",caseType:"confirmed",strain:"Seoul",syndrome:"HFRS",reportDate:"2025-12-05",outcome:"recovered",sex:"M",age:38 },
-  { id:"c038",lat:37.5,lng:127.0,country:"South Korea",region:"Gyeonggi",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-03-28",outcome:"recovered",sex:"M",age:30 },
-  { id:"c039",lat:35.2,lng:129.0,country:"South Korea",region:"Busan",caseType:"suspected",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-04-14",outcome:"unknown",sex:"F",age:25 },
-  { id:"c040",lat:43.1,lng:131.9,country:"Russia",region:"Primorsky Krai",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2026-02-22",outcome:"recovered",sex:"M",age:53 },
-  { id:"c041",lat:48.7,lng:44.5,country:"Russia",region:"Volgograd",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-01-18",outcome:"recovered",sex:"F",age:47 },
-  { id:"c042",lat:54.7,lng:56.0,country:"Russia",region:"Bashkortostan",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2026-03-12",outcome:"hospitalized",sex:"M",age:59 },
-  { id:"c043",lat:56.8,lng:60.6,country:"Russia",region:"Sverdlovsk",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2025-10-30",outcome:"recovered",sex:"M",age:44 },
-  { id:"c044",lat:36.2,lng:-109.1,country:"United States",region:"Arizona",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2025-09-15",outcome:"recovered",sex:"F",age:32 },
-  { id:"c045",lat:-40.2,lng:-71.4,country:"Argentina",region:"Neuquén",caseType:"confirmed",strain:"Andes",syndrome:"HPS",reportDate:"2025-08-20",outcome:"deceased",sex:"M",age:72 },
-  { id:"c046",lat:62.0,lng:25.7,country:"Finland",region:"Central Finland",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2025-07-10",outcome:"recovered",sex:"F",age:60 },
-  { id:"c047",lat:35.9,lng:104.2,country:"China",region:"Gansu",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2025-06-18",outcome:"recovered",sex:"M",age:51 },
-  { id:"c048",lat:44.0,lng:-103.8,country:"United States",region:"South Dakota",caseType:"suspected",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2026-05-01",outcome:"hospitalized",sex:"M",age:28 },
-  { id:"c049",lat:-26.2,lng:-49.4,country:"Brazil",region:"Santa Catarina",caseType:"confirmed",strain:"Araraquara",syndrome:"HPS",reportDate:"2025-05-22",outcome:"recovered",sex:"F",age:36 },
-  { id:"c050",lat:51.2,lng:6.8,country:"Germany",region:"North Rhine-Westphalia",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2025-04-14",outcome:"recovered",sex:"M",age:45 },
-  { id:"c051",lat:36.7,lng:-107.2,country:"United States",region:"New Mexico",caseType:"confirmed",strain:"Sin Nombre",syndrome:"HPS",reportDate:"2025-03-08",outcome:"recovered",sex:"F",age:55 },
-  { id:"c052",lat:-42.0,lng:-71.8,country:"Argentina",region:"Río Negro",caseType:"fatal",strain:"Andes",syndrome:"HPS",reportDate:"2025-02-15",outcome:"deceased",sex:"M",age:68 },
-  { id:"c053",lat:64.2,lng:27.7,country:"Finland",region:"Kainuu",caseType:"confirmed",strain:"Puumala",syndrome:"NE",reportDate:"2025-01-20",outcome:"recovered",sex:"M",age:42 },
-  { id:"c054",lat:37.9,lng:126.7,country:"South Korea",region:"Gyeonggi",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2025-12-28",outcome:"recovered",sex:"F",age:35 },
-  { id:"c055",lat:43.8,lng:125.3,country:"China",region:"Jilin",caseType:"confirmed",strain:"Hantaan",syndrome:"HFRS",reportDate:"2025-11-15",outcome:"hospitalized",sex:"M",age:64 },
-];
+// Seed data is now loaded dynamically from /cases.json
 
 const CASE_COLORS = { confirmed: "#ef4444", suspected: "#f59e0b", probable: "#3b82f6", fatal: "#a855f7" };
 const SYNDROME_LABELS = { HPS: "Hantavirus Pulmonary Syndrome", HFRS: "Hemorrhagic Fever with Renal Syndrome", NE: "Nephropathia Epidemica" };
@@ -470,7 +413,7 @@ function CaseDetail({ c, onClose }) {
           <section>
             <div style={{ fontSize: 10, color: "#475569", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8, fontFamily: "'IBM Plex Sans', sans-serif" }}>Patient</div>
             <div style={{ background: "#1e293b", borderRadius: 8, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 7 }}>
-              {row("Age", `${c.age} years`)}
+              {row("Age", c.age != null ? `${c.age} years` : "Unknown")}
               {row("Sex", c.sex === "M" ? "Male" : c.sex === "F" ? "Female" : "Unknown")}
               <div style={{ fontSize: 10, color: "#334155", marginTop: 2, fontFamily: "'IBM Plex Mono', monospace" }}>ID: {c.id}</div>
             </div>
@@ -552,48 +495,82 @@ function DonateButton({ compact }) {
 
 // ─── MAIN APP ───────────────────────────────────────────────────
 export default function HantavirusTracker() {
+  const [cases, setCases] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
   const [filter, setFilter] = useState("all");
   const [activeModal, setActiveModal] = useState(null);
-  const selectedCase = useMemo(() => CASES.find(c => c.id === selectedId), [selectedId]);
+  const [lastUpdated, setLastUpdated] = useState(null);
+
+  // Load cases from /cases.json on mount, then re-fetch every hour
+  useEffect(() => {
+    const load = () => {
+      fetch("/cases.json?t=" + Date.now())
+        .then(r => r.json())
+        .then(data => {
+          setCases(data);
+          setLastUpdated(new Date());
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Failed to load cases.json:", err);
+          setLoading(false);
+        });
+    };
+    load();
+    const interval = setInterval(load, 60 * 60 * 1000); // re-fetch every hour
+    return () => clearInterval(interval);
+  }, []);
+
+  const selectedCase = useMemo(() => cases.find(c => c.id === selectedId), [selectedId, cases]);
 
   const filtered = useMemo(() => {
-    if (filter === "all") return CASES;
-    return CASES.filter(c => c.caseType === filter);
-  }, [filter]);
+    if (filter === "all") return cases;
+    return cases.filter(c => c.caseType === filter);
+  }, [filter, cases]);
 
   const stats = useMemo(() => {
-    const total = CASES.length;
-    const deaths = CASES.filter(c => c.outcome === "deceased").length;
-    const last30 = CASES.filter(c => { const d = new Date(c.reportDate); const now = new Date(); return (now - d) / 86400000 <= 30; }).length;
-    const countries = new Set(CASES.map(c => c.country)).size;
-    return { total, deaths, cfr: ((deaths / total) * 100).toFixed(1), last30, countries };
-  }, []);
+    const total = cases.length;
+    const deaths = cases.filter(c => c.outcome === "deceased").length;
+    const last30 = cases.filter(c => { const d = new Date(c.reportDate); const now = new Date(); return (now - d) / 86400000 <= 30; }).length;
+    const countries = new Set(cases.map(c => c.country)).size;
+    return { total, deaths, cfr: total > 0 ? ((deaths / total) * 100).toFixed(1) : "0.0", last30, countries };
+  }, [cases]);
 
   const monthlyData = useMemo(() => {
     const months = {};
-    CASES.forEach(c => {
+    cases.forEach(c => {
       const m = c.reportDate.slice(0, 7);
       if (!months[m]) months[m] = { month: m, cases: 0, deaths: 0 };
       months[m].cases++;
       if (c.outcome === "deceased") months[m].deaths++;
     });
     return Object.values(months).sort((a, b) => a.month.localeCompare(b.month));
-  }, []);
+  }, [cases]);
 
   const countryData = useMemo(() => {
     const ct = {};
-    CASES.forEach(c => { ct[c.country] = (ct[c.country] || 0) + 1; });
+    cases.forEach(c => { ct[c.country] = (ct[c.country] || 0) + 1; });
     return Object.entries(ct).map(([country, cases]) => ({ country, cases })).sort((a, b) => b.cases - a.cases);
-  }, []);
+  }, [cases]);
 
   const strainData = useMemo(() => {
     const st = {};
-    CASES.forEach(c => { st[c.strain] = (st[c.strain] || 0) + 1; });
+    cases.forEach(c => { st[c.strain] = (st[c.strain] || 0) + 1; });
     return Object.entries(st).map(([strain, count]) => ({ strain, count })).sort((a, b) => b.count - a.count);
-  }, []);
+  }, [cases]);
 
   const STRAIN_COLORS = ["#ef4444", "#f59e0b", "#3b82f6", "#10b981", "#a855f7", "#ec4899", "#06b6d4"];
+
+  if (loading) {
+    return (
+      <div style={{ background: "#0f172a", color: "#f1f5f9", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16, fontFamily: "'DM Sans', -apple-system, sans-serif" }}>
+        <div style={{ width: 40, height: 40, border: "3px solid #334155", borderTopColor: "#ef4444", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <div style={{ color: "#64748b", fontSize: 14 }}>Loading case data…</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ background: "#0f172a", color: "#f1f5f9", minHeight: "100vh", fontFamily: "'DM Sans', -apple-system, sans-serif" }}>
@@ -609,7 +586,7 @@ export default function HantavirusTracker() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontSize: 12, color: "#64748b" }}>Last updated: {new Date().toUTCString().slice(0, 16)} UTC</span>
+          <span style={{ fontSize: 12, color: "#64748b" }}>Last updated: {lastUpdated ? lastUpdated.toUTCString().slice(0, 16) + " UTC" : "Loading…"}</span>
           <DonateButton compact />
         </div>
       </header>
@@ -655,7 +632,7 @@ export default function HantavirusTracker() {
               background: filter === f ? "#38bdf822" : "transparent", color: filter === f ? "#38bdf8" : "#94a3b8",
               fontSize: 12, fontWeight: 500, cursor: "pointer", textTransform: "capitalize"
             }}>
-            {f === "all" ? `All (${CASES.length})` : `${f} (${CASES.filter(c => c.caseType === f).length})`}
+            {f === "all" ? `All (${cases.length})` : `${f} (${cases.filter(c => c.caseType === f).length})`}
           </button>
         ))}
       </div>
@@ -720,7 +697,7 @@ export default function HantavirusTracker() {
           <div style={{ fontSize: 11, color: "#475569", marginBottom: 16 }}>All strains, syndromes, and case fatality rates reflect current WHO/CDC epidemiological data.</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 10 }}>
             {strainData.map(s => {
-              const pct = ((s.count / CASES.length) * 100).toFixed(0);
+              const pct = cases.length > 0 ? ((s.count / cases.length) * 100).toFixed(0) : 0;
               const info = STRAIN_INFO[s.strain];
               const col = info?.color ?? "#94a3b8";
               return (
@@ -766,7 +743,7 @@ export default function HantavirusTracker() {
                 </tr>
               </thead>
               <tbody>
-                {[...CASES].sort((a,b) => b.reportDate.localeCompare(a.reportDate)).slice(0, 12).map(c => (
+                {[...cases].sort((a,b) => b.reportDate.localeCompare(a.reportDate)).slice(0, 12).map(c => (
                   <tr key={c.id} onClick={() => setSelectedId(c.id)}
                     style={{ borderBottom: "1px solid #1e293b", cursor: "pointer", background: c.id === selectedId ? "#334155" : "transparent", transition: "background 0.15s" }}
                     onMouseEnter={e => { if (c.id !== selectedId) e.currentTarget.style.background = "#1e293b88"; }}
