@@ -139,7 +139,7 @@
   <text x="262" y="527" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Fatal</text>
 
   <!-- URL -->
-  <text x="60" y="576" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#334155">hantavirus-tracker.emangrib.workers.dev</text>
+  <text x="60" y="576" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#334155">hantavirus-trackers.com</text>
 
   <!-- Data sources strip -->
   <rect x="0" y="600" width="1200" height="30" fill="#0a1220"/>
